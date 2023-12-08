@@ -24,7 +24,7 @@ done
 
 # Explain to user the progress.
 echo "Recoding $infile"
-echo "Reults written to $outfile. All sequence data is on one line."
+echo "Results written to $outfile. All sequence data is on one line."
 
 # Recode purins to R and pyrimidines to Y. Write all results to a single line of
 # the output file.

@@ -7,31 +7,33 @@ import argparse
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("input_file")
-    parser.add_argument("output_file")
+    parser.add_argument(
+            "-i", "--input_file", required=True, help="Input file path")
+    parser.add_argument(
+            "-o", "--output_file", required=True, help="Output file path")
     args = parser.parse_args()
     return args
 
 
 
 def calculate_odd_even_homology(str1, str2):
-    """Calculate homology between odd and even characters in two strings.
+    """
+    Calculate homology between odd and even characters in two strings.
     
     Parameters
-        ----------
-        str1 : str
-            The first input string.
-        str2 : str
-            The second input string.
+    ----------
+    str1 : str
+        The first input string.
+    str2 : str
+        The second input string.
 
-        Returns
-        -------
-        tuple
-            A tuple containing odd homology, even homology, relative difference
-            (Redif), and absolute difference (Abdif) between odd and even 
-            homology.
-        """
-
+    Returns
+    -------
+    tuple
+        A tuple containing odd homology, even homology, relative difference
+        (Redif), and absolute difference (Abdif) between odd and even 
+        homology.
+    """
     # Count the matching odd and even characters.
     even_count = sum(c1 == c2 for c1, c2 in zip(str1[1::2], str2[1::2]))
     odd_count = sum(c1 == c2 for c1, c2 in zip(str1[::2], str2[::2]))

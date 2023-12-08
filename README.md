@@ -9,6 +9,31 @@ odd phases of nucleotides.
 nucleotides to R, and all thymine (T) and cytosine (C) to Y. It will also place
 the entire sequence on a single line, which is useful for the next step in the
 analysis.
-2. Next, the user should invoke `python analysis/find_jumpers.py -i <path_to_input_file>
+2. Next, invoke `python analysis/find_jumpers.py -i <path_to_input_file>
    -o <path_to_output_file>`, along with any other command line arguments that
-the user wishes to change from the default.
+the user wishes to change from the default (run `python analysis/find_jumpers.py
+-h` to display a list of all command line arguments). This script will move
+along the purine-coded fasta file one nucleotide at a time, and search for
+regions of homology between the first `<reference_size>; default = 40` nucleotides and the next
+`<window_size - reference_size>` nucleotides. If a single region of `<reference_size>` 
+is `>=<min_homology>; default = 0.6` and has a unique, highest homology within
+the window, it will be deemed a jumper and written to the output file.
+3. Next, invoke `find_odd_even_homology.py -i <path_to_input_file> -o
+   <path_to_output_file>`. This script will split the jumpers into phases and
+calculate the difference in homology between the odd-numbered phase and
+the even-numbered phase. 
+4. Lastly, the `jumpers_analysis.ipynb` can be run to generate plots to
+   visualize the results of the experiment.
+
+## Example of use
+In the following section, we provide an example of how to run the code on a
+randomly-generated FASTA file consisting of 1000 nucleotides. Note that at the
+second position of the file, there is an N. This is a masked base, and the
+jumpers software will ignore any windows containing an N. 
+
+1. Preprocess the file:
+    ```
+    analysis/preprocessing -i  -o <path_to_output_file>
+    ```
+
+2. S

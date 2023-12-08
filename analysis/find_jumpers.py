@@ -57,9 +57,12 @@ def find_best_matching_string(reference, sequence, min_homology=0.6):
     return homology_dict
 
 
+
+
+
 # Process the input file.
 def process_file(
-        input_file_path, ouput_file_path, 
+        input_file_path, output_file_path, 
         window_size, reference_size, min_homology):
     
 
@@ -75,9 +78,9 @@ def process_file(
         while len(window) == window_size:
             nt = window[0]
             
-            # Skip past windows that start with N
+            # Skip past windows that contain N
             if "n" in window.lower():
-                print("yes")
+                window = window[1:] + file.read(1)
                 position += 1
                 continue
             
@@ -93,13 +96,15 @@ def process_file(
                     reference, window[reference_size:], min_homology)
             
             
-            
+            # Only retrieve jumpers that have max homology, and only if there 
+            # are no two or more jumpers with the same max homology.
             max_homo = max(homology_dict.keys())
             if (len(homology_dict[max_homo]) > 1) or (max_homo <= min_homology):
                 position += 1
                 window = window[1:] + file.read(1)
                 continue
-
+            
+            # Retrieve homology, jump length (julen), and jumper string.
             homology = homology_dict[max_homo][0]["homology"]
             julen = homology_dict[max_homo][0]["julen"]
             jumper = homology_dict[max_homo][0]["jumper"]
@@ -115,27 +120,22 @@ def process_file(
 
 
 
+
+
 # Main function to find jumpers.
 def main():
 
     # Parse CLI arguments.
     args = parse_arguments()
-    input_file = args.input_file
-    output_file = args.output_file
+    input_file_path = args.input_file
+    output_file_path = args.output_file
     window_size = args.window_size
     reference_size = args.reference_size
     min_homology = args.min_homology
     
-    print(input_file)
-    print(output_file)
-    print(window_size)
-    print(reference_size)
-    print(min_homology)
-    
-    raise
     # Process the file to find jumpers.
     process_file(
-            input_file, output_file, window_size, reference_size,
+            input_file_path, output_file_path, window_size, reference_size,
             min_homology)
 
 

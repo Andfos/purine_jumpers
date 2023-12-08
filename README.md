@@ -16,7 +16,7 @@ the user wishes to change from the default (run `python analysis/find_jumpers.py
 along the purine-coded fasta file one nucleotide at a time, and search for
 regions of homology between the first `<reference_size>; default = 40` nucleotides and the next
 `<window_size - reference_size>` nucleotides. If a single region of `<reference_size>` 
-is `>=<min_homology>; default = 0.6` and has a unique, highest homology within
+is greater than or equal to `<min_homology>; default = 0.6` and has a unique, highest homology within
 the window, it will be deemed a jumper and written to the output file.
 3. Next, invoke `find_odd_even_homology.py -i <path_to_input_file> -o
    <path_to_output_file>`. This script will split the jumpers into phases and

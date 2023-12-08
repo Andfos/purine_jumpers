@@ -32,20 +32,19 @@ second position of the file, there is an N. This is a masked base, and the
 `find_jumpers.py` script will ignore any windows containing an N. 
 
 1. Preprocess the file:
-```
-bash analysis/preprocessing.sh -i test/dna_1000nt.fa  -o test/dna_1000nt_oneLine.fa
-```
+    ```
+    bash analysis/preprocessing.sh -i test/dna_1000nt.fa  -o test/dna_1000nt_oneLine.fa
+    ```
 
 2. Find jumpers:
-```
-python analysis/find_jumpers.py -i test/dna_1000nt_oneLine.fa -o dna_1000nt_homology_results.tsv -w 200 -r 40 -m 0.60
-```
+    ```
+    python analysis/find_jumpers.py -i test/dna_1000nt_oneLine.fa -o dna_1000nt_homology_results.tsv -w 200 -r 40 -m 0.60
+    ```
 
 3. Find odd-even phase homology:
-```
-python analysis/find_odd_even_homology.py -i test/dna_1000nt_homology_results.tsv -o dna_1000nt_homology_results_oddEven.tsv
-```
+    ```
+    python analysis/find_odd_even_homology.py -i test/dna_1000nt_homology_results.tsv -o dna_1000nt_homology_results_oddEven.tsv
+    ```
 
 4. Invoke jupyter notebook, and run the code cells in `jumpers_analysis.ipynb`.
-   Note that the results displayed on Github are currently those for Human
-chromosome 20 of HG38 genome. 
+   Note that the results displayed on Github are currently those for Human chromosome 20 of HG38 genome. 

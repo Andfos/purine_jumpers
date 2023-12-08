@@ -129,9 +129,9 @@ def main():
     args = parse_arguments()
     input_file_path = args.input_file
     output_file_path = args.output_file
-    window_size = args.window_size
-    reference_size = args.reference_size
-    min_homology = args.min_homology
+    window_size = int(args.window_size)
+    reference_size = int(args.reference_size)
+    min_homology = float(args.min_homology)
     
     # Process the file to find jumpers.
     process_file(

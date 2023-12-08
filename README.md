@@ -42,7 +42,8 @@ analysis/find_jumpers.py -i test/dna_1000nt_oneLine.fa -o dna_1000nt_homology_re
 ```
 
 3. Find odd-even phase homology:
-```analysis/find_odd_even_homology.py -i test/dna_1000nt_homology_results.tsv -o dna_1000nt_homology_results_oddEven.tsv
+```
+analysis/find_odd_even_homology.py -i test/dna_1000nt_homology_results.tsv -o dna_1000nt_homology_results_oddEven.tsv
 ```
 
 4. Invoke jupyter notebook, and run the code cells in `jumpers_analysis.ipynb`.

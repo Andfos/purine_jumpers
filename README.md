@@ -29,11 +29,14 @@ the even-numbered phase.
 In the following section, we provide an example of how to run the code on a
 randomly-generated FASTA file consisting of 1000 nucleotides. Note that at the
 second position of the file, there is an N. This is a masked base, and the
-jumpers software will ignore any windows containing an N. 
+`find_jumpers.py` script will ignore any windows containing an N. 
 
 1. Preprocess the file:
     ```
-    analysis/preprocessing -i  -o <path_to_output_file>
+    analysis/preprocessing.sh -i test/dna_1000nt.fa  -o test/dna_1000nt_oneLine.fa
     ```
 
-2. S
+2. Find jumpers:
+```
+analysis/find_jumpers.py -i test/dna_1000nt_oneLine.fa -o dna_1000nt_homology_results.tsv -w 200 -r 40 -m 0.60
+```

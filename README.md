@@ -78,16 +78,19 @@ genome for downstream processing.
        We proceed first to the UCSC Table Browser located at
        `https://genome.ucsc.edu/cgi-bin/hgTables`. Here, we specify the 
        following parameters:
-            ```
             
-            clade    : Mammal
-            genome   : Human
-            assembly : Feb. 2009 (GRCh37/hg19)
-            group    : Genes and Gene Predictions
-            track    : UCSC Genes
-            table    : knownGene
-            region   : genome
-            output format : BED - browser extensible data```
+                ```
+                
+                clade    : Mammal
+                genome   : Human
+                assembly : Feb. 2009 (GRCh37/hg19)
+                group    : Genes and Gene Predictions
+                track    : UCSC Genes
+                table    : knownGene
+                region   : genome
+                output format : BED - browser extensible data
+               
+                ```
        
        We can then specify the output filename and download the BED file using 
        the `get output` button.

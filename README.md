@@ -95,4 +95,22 @@ genome for downstream processing.
 
     b) Obtain the conserved regions of the genome. To accomplish this, we will 
        use results from the PhastCons-100Way experiment (details can be found 
-       [here](https://genome.ucsc.edu/cgi-bin/hgc?hgsid=916826631_g8XasCQqrg8t9dxczEQmzhNA9Nyc&c=chr12&l=53858048&r=53859044&o=53858048&t=53859044&g=phastCons100way&i=phastCons100way). 
+       [here](https://genome.ucsc.edu/cgi-bin/hgc?hgsid=916826631_g8XasCQqrg8t9dxczEQmzhNA9Nyc&c=chr12&l=53858048&r=53859044&o=53858048&t=53859044&g=phastCons100way&i=phastCons100way).).
+       To access this data, we can connect to the table using MySQL via the 
+       MariaDB. The MySQL workbench is a good tool for this task, although one 
+       could also use the CLI (see [here](http://genome.ucsc.edu/goldenPath/help/mysql.html) 
+       for details on how to connect to the MariaDB server).
+
+       Once connected to the server, we can run the following query to retrieve 
+       all genomic bins where the sumData column is >= 165. This will retrieve 
+       arppoximately the top-20% most conserved 1024 nt bins in the human
+       genome. 
+        ```
+        
+            SELECT pc.chrom, pc.chromStart, pc.chromEnd
+            FROM hg19.phastCons100way as pc
+            WHERE pc.sumData >= 165
+        
+        ```
+       Once the results of the query are returned, export the data as a TSV file 
+       in BED format.

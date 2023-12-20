@@ -74,7 +74,7 @@ genome for downstream processing.
 2. Obtain required bedfiles. Useful tools include the UCSC Table Browser and 
    the MariaDB.
 
-    a) Obtain the intergenic regions. 
+    a) Obtain the regions overlapping genes and save to a bed-file. 
        We proceed first to the UCSC Table Browser located at
        `https://genome.ucsc.edu/cgi-bin/hgTables`. Here, we specify the 
        following parameters:
@@ -82,20 +82,17 @@ genome for downstream processing.
             
             clade    : Mammal
             genome   : Human
-            
             assembly : Feb. 2009 (GRCh37/hg19)
-            
             group    : Genes and Gene Predictions
-            
             track    : UCSC Genes
-            
             table    : knownGene
-            
             region   : genome
-            
             output format : BED - browser extensible data
         
         ```
        We can then specify the output filename and download the BED file using 
        the `get output` button.
 
+    b) Obtain the conserved regions of the genome. To accomplish this, we will 
+       use results from the PhastCons-100Way experiment (details can be found 
+       [here](https://genome.ucsc.edu/cgi-bin/hgc?hgsid=916826631_g8XasCQqrg8t9dxczEQmzhNA9Nyc&c=chr12&l=53858048&r=53859044&o=53858048&t=53859044&g=phastCons100way&i=phastCons100way). 

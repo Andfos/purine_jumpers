@@ -87,9 +87,7 @@ genome for downstream processing.
             track    : UCSC Genes
             table    : knownGene
             region   : genome
-            output format : BED - browser extensible data
-        
-            ```
+            output format : BED - browser extensible data```
        
        We can then specify the output filename and download the BED file using 
        the `get output` button.

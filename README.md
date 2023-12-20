@@ -79,8 +79,6 @@ genome for downstream processing.
       `https://genome.ucsc.edu/cgi-bin/hgTables`. Here, we specify the 
       following parameters:
             
-        ```
-        
         clade    : Mammal
         genome   : Human
         assembly : Feb. 2009 (GRCh37/hg19)
@@ -89,8 +87,6 @@ genome for downstream processing.
         table    : knownGene
         region   : genome
         output format : BED - browser extensible data
-       
-        ```
        
       We can then specify the output filename and download the BED file using 
       the `get output` button.

@@ -90,6 +90,7 @@ genome for downstream processing.
             output format : BED - browser extensible data
         
         ```
+       
        We can then specify the output filename and download the BED file using 
        the `get output` button.
 
@@ -111,5 +112,6 @@ genome for downstream processing.
             WHERE pc.sumData >= 165
         
         ```
+
        Once the results of the query are returned, export the data as a TSV file 
        in BED format.

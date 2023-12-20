@@ -100,7 +100,6 @@ genome for downstream processing.
        MariaDB. The MySQL workbench is a good tool for this task, although one 
        could also use the CLI (see [here](http://genome.ucsc.edu/goldenPath/help/mysql.html) 
        for details on how to connect to the MariaDB server).
-
        Once connected to the server, we can run the following query to retrieve 
        all genomic bins where the sumData column is >= 165. This will retrieve 
        arppoximately the top-20% most conserved 1024 nt bins in the human

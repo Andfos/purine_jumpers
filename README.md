@@ -92,8 +92,8 @@ genome for downstream processing.
                
                 ```
        
-       We can then specify the output filename and download the BED file using 
-       the `get output` button.
+We can then specify the output filename and download the BED file using 
+the `get output` button.
 
     b) Obtain the conserved regions of the genome. To accomplish this, we will 
        use results from the PhastCons-100Way experiment (details can be found 

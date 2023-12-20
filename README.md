@@ -103,11 +103,13 @@ genome for downstream processing.
        Once connected to the server, we can run the following query to retrieve 
        all genomic bins where the sumData column is >= 165. This will retrieve 
        arppoximately the top-20% most conserved 1024 nt bins in the human
-       genome. 
+       genome:
+        ``` 
         
             SELECT pc.chrom, pc.chromStart, pc.chromEnd
             FROM hg19.phastCons100way as pc
             WHERE pc.sumData >= 165
         
+        ```
        Once the results of the query are returned, export the data as a TSV file 
        in BED format.

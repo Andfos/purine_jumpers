@@ -78,7 +78,7 @@ genome for downstream processing.
        We proceed first to the UCSC Table Browser located at
        `https://genome.ucsc.edu/cgi-bin/hgTables`. Here, we specify the 
        following parameters:
-        ```
+            ```
             
             clade    : Mammal
             genome   : Human
@@ -89,7 +89,7 @@ genome for downstream processing.
             region   : genome
             output format : BED - browser extensible data
         
-        ```
+            ```
        
        We can then specify the output filename and download the BED file using 
        the `get output` button.

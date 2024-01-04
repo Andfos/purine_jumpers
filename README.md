@@ -181,7 +181,7 @@ genome for downstream processing.
  
 
    e) **Extract a FASTA file from the combined-bedfile.** We must now use our 
-   *hg19.fa* genome file and our *hg19_inNucCon.bed* to obtain the actual 
+   genome file and our final BED file to obtain the actual 
    DNA sequence of our retrieved regions. We do this using the following command:
 
         bedtools getfasta -fi data/hg19.fa -bed data/hg19_inNucCon.bed -fo data/hg19_inNucCon.fa

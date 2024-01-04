@@ -79,9 +79,9 @@ genome for downstream processing.
    the MariaDB.
 
    a) **Obtain the genomic regions overlapping genes and save to a bed-file**. 
-      We proceed first to the UCSC Table Browser located at 
-      `https://genome.ucsc.edu/cgi-bin/hgTables`. Here, we specify the 
-      following parameters:
+   We proceed first to the UCSC Table Browser located at 
+   `https://genome.ucsc.edu/cgi-bin/hgTables`. Here, we specify the 
+   following parameters:
             
         clade    : Mammal
         genome   : Human
@@ -92,22 +92,22 @@ genome for downstream processing.
         region   : genome
         output format : BED - browser extensible data
        
-      We can then specify the output filename and download the BED file using 
-      the `get output` button.
+   We can then specify the output filename and download the BED file using 
+   the `get output` button.
 
-      This will only retrieve the regions containing genes within the *hg19* 
-      genome. In order to obtain intergenic regions, we use the
-      `process_bedfile` script in the `analysis` directory: 
+   This will only retrieve the regions containing genes within the *hg19* 
+   genome. In order to obtain intergenic regions, we use the
+   `process_bedfile` script in the `analysis` directory: 
         ```
         bash analysis/process_bedfile.sh -i data/hg19.fa.fai -b data/hg19_genes.bed -e 500 -c -o data/hg19_intergenic.bed
         ```
       
-      In the example, we specify that we will extend each region in the input BED file 
-      by 500 nucleotides using the -e option. We provide the -c option, which 
-      will obtain the complement of the extended regions of the input BED file. 
-      Our output file will therefore contain the intergenic regions of the
-      *hg19* genome that are separated from known genes by at least 500 
-      nucleotides.
+   In the example, we specify that we will extend each region in the input BED file 
+   by 500 nucleotides using the -e option. We provide the -c option, which 
+   will obtain the complement of the extended regions of the input BED file. 
+   Our output file will therefore contain the intergenic regions of the
+   *hg19* genome that are separated from known genes by at least 500 
+   nucleotides.
 
 
    b) **Obtain the conserved regions of the genome**. To accomplish this, we will 

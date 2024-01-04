@@ -186,7 +186,8 @@ genome for downstream processing.
 
         bedtools getfasta -fi data/hg19.fa -bed data/hg19_inNucCon.bed -fo data/hg19_inNucCon.fa
    
-   f) **Process the sequence.**
+   f) **Process the sequence.** Once we have our final fasta file, we can then 
+   process it as illustrated aboed in the **Running the Analysis** section.
                   
 
 

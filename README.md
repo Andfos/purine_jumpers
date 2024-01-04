@@ -176,8 +176,8 @@ genome for downstream processing.
 
         bash analysis/combine_bedfiles.sh -b data/hg19_intergenic.bed,data/hg19_nucleosome.bed,data/hg19_conserved.bed -o data/hg19_inNucCon.bed
 
-   We obtain a total of 97,957,186 nucleotides in our final sequence,
-   corresponding to about 3% of the entire *hg19* genome.
+   We obtain a total of 41,113,014 nucleotides in our final sequence,
+   corresponding to about 1.4% of the entire *hg19* genome.
  
 
    e) **Extract a FASTA file from the combined-bedfile.** We must now use our 

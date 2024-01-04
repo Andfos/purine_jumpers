@@ -130,27 +130,30 @@ genome for downstream processing.
 
 
    c) **Obtain the nucleosome-bound regions of the genome**. To find the 
-      positions of the genome bound by nucleosomes, we will use the results 
-      of an experiment from an Mnase digestion of GM12878 cells. The details of 
-      the experiment can be found [here](https://genome.ucsc.edu/cgi-bin/hgTables?db=hg19&hgta_group=regulation&hgta_track=wgEncodeSydhNsome&hgta_table=wgEncodeSydhNsomeGm12878Sig&hgta_doSchema=describe+table+schema). Access and download the 
-      file titled *wgEncodeSydhNsomeGm12878Sig.bigWig* from the data archive 
-      [here](https://hgdownload-test.gi.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeSydhNsome/). 
-      Once downloaded, we will need to convert the file from bigWig format to 
-      BED format. This will entail using another BED file with predefined 
-      regions, and then calculating an average coverage score of those regions 
-      using the bigWig file. This can be accomplished using the 
-      `bigWigAverageOverBed` UCSC tool, available for download 
-      [here](http://hgdownload.soe.ucsc.edu/admin/exe/macOSX.arm64/). Once the 
-      tool is downloaded and made executable using `chmod +x bigWigAverageOverBed`, 
-      we can use the following command to get the average coverage over the 
-      BED file of intergenic regions that we obtained in the previous step.
+   positions of the genome bound by nucleosomes, we will use the results 
+   of an experiment from an Mnase digestion of GM12878 cells. The details of 
+   the experiment can be found [here](https://genome.ucsc.edu/cgi-bin/hgTables?db=hg19&hgta_group=regulation&hgta_track=wgEncodeSydhNsome&hgta_table=wgEncodeSydhNsomeGm12878Sig&hgta_doSchema=describe+table+schema). Access and download the 
+   file titled *wgEncodeSydhNsomeGm12878Sig.bigWig* from the data archive 
+   [here](https://hgdownload-test.gi.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeSydhNsome/). 
+   
+   Once downloaded, we will need to convert the file from bigWig format to 
+   BED format. This will entail using another BED file with predefined 
+   regions, and then calculating an average coverage score of those regions 
+   using the bigWig file. Therefore, we will first create a BED file for the 
+   *hg19* genome with non-overlapping 500 nucleotide regions using the 
+   `make_bed_from_index.py` script in the `analysis` folder:
 
+        python analysis/make_bed_from_index.py -i data/hg19.fa.fai -o data/hg19_500nt.bed -n 500
 
-      ```
-      bigWigAverageOverBed wgEncodeSydhNsomeGm12878Sig.bigWig hg19_intergenic.bed -bedOut=hg19_intergenicNucCoverage.bed temp.tab
-      ```
+   We can then calculate the average nucleosome-signal over these regions using 
+   the `bigWigAverageOverBed` UCSC tool, available for download 
+   [here](http://hgdownload.soe.ucsc.edu/admin/exe/macOSX.arm64/). Once the 
+   tool is downloaded and made executable using `chmod +x bigWigAverageOverBed`, 
+   use the following command:
 
-      The command above will output 2 files. The only file we require is hg19_nuc.bed. 
+        bigWigAverageOverBed wgEncodeSydhNsomeGm12878Sig.bigWig data/hg19_500nt.bed -bedOut=data/hg19_NucCoverage.bed temp.tab > /dev/null
+
+The command above will output 2 files. The only file we require is hg19_nuc.bed. 
       Once we have obtained this file, we will need to filter it to obtain 
       regions of high nucleosome occupancy. For example, to obtain the top 20% 
       most nuclosome-occupied regions from the file, we set a threshold of 1.28, 

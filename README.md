@@ -53,7 +53,7 @@ second position of the file, there is an N. This is a masked base, and the
 ## Obtaining custom genomic regions
 In this section, we explain how one can obtain customized genomic regions for 
 analysis with this package. We illustrate this with an example where we obtain 
-the intergenic, nucleosome-bound, and highly-conserved region of the humand
+the intergenic, nucleosome-bound, and highly-conserved region of the *hg19* human
 genome for downstream processing.
 
 1. Obtain a genome file and index file. For example, to obtain the *hg19* genome, 
@@ -174,7 +174,7 @@ genome for downstream processing.
    conserved, and bound by nucleosomes. We can accomplish this using 
    `combine_bedfiles.sh` in the `analysis` directory:
 
-        bash analysis/combine_bedfiles.sh -b data/hg19_nucleosome.bed,data/hg19_conserved.bed -o data/hg19_inNucCon.bed
+        bash analysis/combine_bedfiles.sh -b data/hg19_intergenic.bed,data/hg19_nucleosome.bed,data/hg19_conserved.bed -o data/hg19_inNucCon.bed
 
    We obtain a total of 97,957,186 nucleotides in our final sequence,
    corresponding to about 3% of the entire *hg19* genome.

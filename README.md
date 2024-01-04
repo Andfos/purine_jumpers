@@ -62,8 +62,9 @@ genome for downstream processing.
     https://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz
     ```
    Following download, you can unzip the compressed file using 
-`gunzip <genome_file>`.
+   `gunzip <path/to/genome_file>`.
 
+   
    We must next obtain a genome index file. This can be accomplished
    using either of the following two commands:
     ```
@@ -93,6 +94,20 @@ genome for downstream processing.
        
       We can then specify the output filename and download the BED file using 
       the `get output` button.
+
+      This will only retrieve the regions containing genes within the *hg19* 
+      genome. In order to obtain intergenic regions, we use the
+      `process_bedfile` script in the `analysis` directory: 
+        ```
+        bash analysis/process_bedfile.sh -i data/hg19.fa.fai -b data/hg19_genes.bed -e 500 -c -o data/hg19_intergenic.bed
+        ```
+      
+      In the example, we specify that we will extend each region in the input BED file 
+      by 500 nucleotides using the -e option. We provide the -c option, which 
+      will obtain the complement of the extended regions of the input BED file. 
+      Our output file will therefore contain the intergenic regions of the
+      *hg19* genome that are separated from known genes by at least 500 
+      nucleotides.
 
 
    b) **Obtain the conserved regions of the genome**. To accomplish this, we will 

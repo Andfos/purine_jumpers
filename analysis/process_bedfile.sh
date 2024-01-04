@@ -1,5 +1,16 @@
 #!/bin/bash
 
+
+## Author: Andrew Foster
+## The purpose of this script is to allow processing of a BED file. This script 
+## allows the user to create a new BED file with regions that are extended by 
+## a certain number of nucleotides, as well as a BED file that contains regions 
+## complementary to the input BED file. The user must provide a genome index in 
+## standard .fai format. A genome index file can esaily be obtained from a 
+## genome FASTA file by running `samtools faidx <genome_file>`.
+
+
+
 # Default values
 sorted=false
 complement=false
@@ -8,32 +19,41 @@ extend=0
 # Function to display usage information
 usage() {
 	echo "Usage: $0 -i genome_index -b bed_file1 -o output_file [-s] [-c] [-e]"
+	echo "Options:"
+    echo "	-i, --index			Path to the genome index file."
+    echo "	-b, --bed			Path to the BED file."	
+    echo "	-o, --ouput			Path to the output file."	
+    echo "	-e, --extend			Extend the regions in the BED file on left and right by X number of nucleotides."	
+    echo "	-s, --sorted			Specify that the BED file is already sorted in the same way as the genome index."
+    echo "	-c, --complement		Create a complementary BED file of regions EXCLUDED from the input BED file. 
+					Note that if the --extend option is used, the complementary regions will be obtained 
+					AFTER the input BED regions have been extended by the specified number of nucleotides."""
 	exit 1
 }
 
 # Process command line options
 while getopts ":i:b:o:e:s:c" opt; do
 	case ${opt} in
-		i)
+		i|--index)
 		genome_index=$OPTARG
 		echo "Genome index is ${genome_index}."
 		;;
-		b)
+		b|--bed)
 		bed_file=($OPTARG) # use the split+glob operator
 		echo "Bedfile is ${bed_file}."
 		;;
-		o)
+		o|--output)
 		output_file=$OPTARG
 		echo "Output file is ${output_file}."
 		;;
-		e)
+		e|--extend)
 		extend=$OPTARG
 		echo "Extension is ${extend}."
 		;;
-		s)
+		s|--sorted)
 		sorted=true
 		;;
-		c)
+		c|--complement)
 		complement=true
 		;;
 		\?)

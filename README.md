@@ -1,4 +1,4 @@
-his code allows a user to search for regions of homology nearby in a
+This code allows a user to search for regions of homology nearby in a
 chromosome, as well as to analyze the differences in homology between even and
 odd phases of nucleotides.
 

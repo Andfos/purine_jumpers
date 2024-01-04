@@ -16,11 +16,9 @@ while getopts ":b:o:s" opt; do
 		set -f # disable glob
 		IFS=',' # split on comma characters
 		bed_files=($OPTARG) # use the split+glob operator
-		echo "Bedfiles include $bed_files"
 		;;
 		o)
 		output_file=$OPTARG
-		echo "Output file is $output_file"
 		;;
 		s)
 		sorted=true
@@ -78,7 +76,7 @@ fi
 
 
 # Combine the bedfiles.
-combined_bed="../data/combined1.bed"
+combined_bed="${temp_dir}/combined.bed"
 #multiIntersectBed -i "${sorted_bed_files[@]}" > "${combined_bed}"
 bedtools multiinter -i "${sorted_bed_files[@]}" > "${combined_bed}"
 

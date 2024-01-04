@@ -163,29 +163,18 @@ genome for downstream processing.
 
         awk -F'\t' '$5 > 1.32' data/hg19_nucCoverage.bed > data/hg19_nucleosome.bed
 
-   The original file contains 6,274,368 regions, and the resulting region
-   contains
+   The original file contains 6,274,368 regions, and the resulting file
+   contains 1,255,658 regions. We have therfore retrieved approximately the 
+   top-20% most nucleosome bound regions in the *hg19* genome. 
 
-With the following command, we will obtain   
-      Once we have obtained this file, we will need to filter it to obtain 
-      regions of high nucleosome occupancy. For example, to obtain the top 20% 
-      most nuclosome-occupied regions from the file, we set a threshold of 1.28, 
-      and then use an AWK one-liner:
-
-      ```
-      ```
  
 
    d) **Find overlap among bed files**. We have now obtained 3 bed files that 
-      we must combine. The nucleosome bedfile has already been built from the 
-      intergenic bed file, so we will only need to combine the nucleosome bed 
-      file with the conserved bed file in order to obtain the regions of 
-      the hg19 genome that are intergenic, conserved, and bound by nucleosomes. 
-      We can accomplish this using `analysis/combine_bedfiles.sh`:
+   we must combine to find the regions of the hg19 genome that are intergenic, 
+   conserved, and bound by nucleosomes. We can accomplish this using 
+   `combine_bedfiles.sh` in the `analysis` directory:
 
-      ```
-      analysis/combine_bedfiles.sh -b data/hg19_nucleosome.bed,data/hg19_conserved.bed -o data/hg19_inNucCon.bed
-      ```
+        bash analysis/combine_bedfiles.sh -b data/hg19_nucleosome.bed,data/hg19_conserved.bed -o data/hg19_inNucCon.bed
 
    e) **Extract a FASTA file from the combined-bedfile.** We must now use our 
       *hg19.fa* genome file and our *hg19_inNucCon.bed* to obtain the actual 

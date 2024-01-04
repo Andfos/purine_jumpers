@@ -176,15 +176,16 @@ genome for downstream processing.
 
         bash analysis/combine_bedfiles.sh -b data/hg19_nucleosome.bed,data/hg19_conserved.bed -o data/hg19_inNucCon.bed
 
+   We obtain a total of 97,957,186 nucleotides in our final sequence,
+   corresponding to about 3% of the entire *hg19* genome.
+ 
+
    e) **Extract a FASTA file from the combined-bedfile.** We must now use our 
-      *hg19.fa* genome file and our *hg19_inNucCon.bed* to obtain the actual 
-      DNA sequence of the regions within the BED file. We do this using the 
-      following command:
+   *hg19.fa* genome file and our *hg19_inNucCon.bed* to obtain the actual 
+   DNA sequence of our retrieved regions. We do this using the following command:
 
-      ```
-      bedtools getfasta -fi data/hg19.fa -bed data/hg19_inNucCon.bed -fo hg19_inNucCon.fa
-      ```
-
+        bedtools getfasta -fi data/hg19.fa -bed data/hg19_inNucCon.bed -fo data/hg19_inNucCon.fa
+   
    f) **Process the sequence.**
                   
 
@@ -194,19 +195,3 @@ genome for downstream processing.
 
 
 
-**Obtain the nucleosome-bound regions of the genpome**. To accomplish
-      this, we will use the results of the *UW Predicted Nucleosome Occupancy - A375* 
-      experiment (details can be found
-[here](https://genome.ucsc.edu/cgi-bin/hgTrackUi?hgsid=1834475416_yTWM0Y4M8ZWMZHk4eDrd9OBXgfvg&c=chr12&g=uwNucOccA375)). 
-      We will again connect to the *MariaDB* to access the table. The following 
-      query will retrieve all genomic bins where the sumData columns >= -310.
-
-        SELECT Chrom, ChromStart, ChromEnd
-        FROM hg18.uwNucOccA375
-        WHERE sumData >= -310     
-
-      This will retrieve the top-20% bins predicted to be occupied by
-      nucleosomes. Export the results of the query as a TSV file in BED format.   
-
-
-   d) **Format the bed files.**

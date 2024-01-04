@@ -151,16 +151,28 @@ genome for downstream processing.
    tool is downloaded and made executable using `chmod +x bigWigAverageOverBed`, 
    use the following command:
 
-        bigWigAverageOverBed wgEncodeSydhNsomeGm12878Sig.bigWig data/hg19_500nt.bed -bedOut=data/hg19_NucCoverage.bed temp.tab > /dev/null
+        bigWigAverageOverBed data/wgEncodeSydhNsomeGm12878Sig.bigWig data/hg19_500nt.bed -bedOut=data/hg19_nucCoverage.bed temp.tab > /dev/null
 
-The command above will output 2 files. The only file we require is hg19_nuc.bed. 
+   **Note:** To use the UCSC tool without specifying the full-path, you will need 
+   to update the shell's PATH variable accordingly. 
+
+   Once we have obtained the `data/hg19_nucCoverage.bed` file with the average 
+   nucleosome coverage across all non-overlapping 500 nucleotide regions in 
+   *hg19*, we will need to filter it to obtain the regions of high nucleosome 
+   occupancy:
+
+        awk -F'\t' '$5 > 1.32' data/hg19_nucCoverage.bed > data/hg19_nucleosome.bed
+
+   The original file contains 6,274,368 regions, and the resulting region
+   contains
+
+With the following command, we will obtain   
       Once we have obtained this file, we will need to filter it to obtain 
       regions of high nucleosome occupancy. For example, to obtain the top 20% 
       most nuclosome-occupied regions from the file, we set a threshold of 1.28, 
       and then use an AWK one-liner:
 
       ```
-      awk -F'\t' '$5 > 1.32' data/hg19_NucCoverage.bed > data/hg19_nucleosome.bed
       ```
  
 

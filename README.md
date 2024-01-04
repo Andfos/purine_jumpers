@@ -1,4 +1,4 @@
-This code allows a user to search for regions of homology nearby in a
+his code allows a user to search for regions of homology nearby in a
 chromosome, as well as to analyze the differences in homology between even and
 odd phases of nucleotides.
 
@@ -61,7 +61,10 @@ genome for downstream processing.
     ```
     https://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz
     ```
-   Following download, obtain a genome index file. This can be accomplished
+   Following download, you can unzip the compressed file using 
+`gunzip <genome_file>`.
+
+   We must next obtain a genome index file. This can be accomplished
    using either of the following two commands:
     ```
     bioawk -c fastx '{print $name"\t"length($seq)}' <genome_file> | gsort -k1,1V -k2,2n)

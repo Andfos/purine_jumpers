@@ -1,4 +1,5 @@
 import argparse
+import re
 
 
 # Parse CLI arguments.
@@ -71,53 +72,81 @@ def process_file(
         # Write the header of the output file.
         output_file.write("position\thomology\tjulen\treference\tjumper\n")
         
-        # Read the first 200 characters
-        window = file.read(window_size)
-        
-        position = 0
-        while len(window) == window_size:
-            nt = window[0]
-            
-            # Skip past windows that contain N
-            if "n" in window.lower():
-                window = window[1:] + file.read(1)
-                position += 1
+        # Read lines one by one
+        for line_number, line in enumerate(file, 1):
+            # Ignore lines starting with ">"
+            if line.startswith(">"):
+                region_pattern = r">([^:]+):"
+                start_pos_pattern = r"[^:]+:(\d+)-"
+                region = re.search(region_pattern, line)
+                start_pos = re.search(start_pos_pattern, line)
+                region = (region.group(1) if region else "region")
+                start_pos = (int(start_pos.group(1)) if start_pos else 0)
+                
+
                 continue
-            
-            # Monitor progress by printing position every 100,000 nt.
-            if (position % 100000) == 0:
-                print(position)
 
-            # Take the first 40 characters as the reference
-            reference = window[:reference_size]
 
-            # Find the best matching string within the next 160 characters
-            homology_dict = find_best_matching_string(
-                    reference, window[reference_size:], min_homology)
-            
-            
-            # Only retrieve jumpers that have max homology, and only if there 
-            # are no two or more jumpers with the same max homology.
-            max_homo = max(homology_dict.keys())
-            if (len(homology_dict[max_homo]) > 1) or (max_homo <= min_homology):
-                position += 1
-                window = window[1:] + file.read(1)
-                continue
-            
-            # Retrieve homology, jump length (julen), and jumper string.
-            homology = homology_dict[max_homo][0]["homology"]
-            julen = homology_dict[max_homo][0]["julen"]
-            jumper = homology_dict[max_homo][0]["jumper"]
+            # Read the first 200 characters
+            #window = file.read(window_size)
+            window = line[:window_size]
 
-            # Write results to file
-            output_file.write(
-                    f"{position}\t{homology}\t{julen}\t{reference}\t{jumper}\n"
-            )
+            count = 0
             
-            # Slide the window one character to the right
-            window = window[1:] + file.read(1)
-            position += 1
 
+            #for i in range(len(line) - window_size):
+            for char in line[window_size:]:
+            #while len(window) == window_size:
+                nt = window[0]
+                
+                # Skip past windows that contain N
+                if "n" in window.lower():
+                    #window = window[1:] + file.read(1)
+                    window = window[1:] + char
+                    count += 1
+                    continue
+                
+                # Monitor progress by printing position every 100,000 nt.
+                #if (count % 100000) == 0:
+                #    print(count)
+
+                # Take the first 40 characters as the reference
+                reference = window[:reference_size]
+
+                # Find the best matching string within the next 160 characters
+                homology_dict = find_best_matching_string(
+                        reference, window[reference_size:], min_homology)
+                
+                
+                # Only retrieve jumpers that have max homology, and only if there 
+                # are no two or more jumpers with the same max homology.
+                max_homo = max(homology_dict.keys())
+                if (len(homology_dict[max_homo]) > 1) or (max_homo <= min_homology):
+                    count += 1
+                    #window = window[1:] + file.read(1)
+                    #window = line[i + 1 : i + 1 + window_size]
+                    window = window[1:] + char
+                    continue
+                
+                # Retrieve homology, jump length (julen), and jumper string.
+                homology = homology_dict[max_homo][0]["homology"]
+                julen = homology_dict[max_homo][0]["julen"]
+                jumper = homology_dict[max_homo][0]["jumper"]
+
+                # Write results to file
+                output_file.write(
+                    f"{region}:{start_pos + count}\t{homology}\t{julen}\t{reference}\t{jumper}\n"
+                )
+                
+                # Slide the window one character to the right
+                #window = window[1:] + file.read(1)
+                #window = window[1:] + line[window_size + count + 1]
+                #window = line[i + 1 : i + 1 + window_size]
+                window = window[1:] + char
+                count += 1
+
+            if (line_number % 1000) == 0:
+                print(line_number)
 
 
 

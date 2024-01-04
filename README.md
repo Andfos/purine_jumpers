@@ -98,10 +98,9 @@ genome for downstream processing.
    This will only retrieve the regions containing genes within the *hg19* 
    genome. In order to obtain intergenic regions, we use the
    `process_bedfile` script in the `analysis` directory: 
-        ```
+        
         bash analysis/process_bedfile.sh -i data/hg19.fa.fai -b data/hg19_genes.bed -e 500 -c -o data/hg19_intergenic.bed
-        ```
-      
+        
    In the example, we specify that we will extend each region in the input BED file 
    by 500 nucleotides using the -e option. We provide the -c option, which 
    will obtain the complement of the extended regions of the input BED file. 

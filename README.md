@@ -105,27 +105,28 @@ genome for downstream processing.
    by 500 nucleotides using the -e option. We provide the -c option, which 
    will obtain the complement of the extended regions of the input BED file. 
    Our output file will therefore contain the intergenic regions of the
-   *hg19* genome that are separated from known genes by at least 500 
+   *hg19* genome that are separated from known genes by 500 
    nucleotides.
 
 
    b) **Obtain the conserved regions of the genome**. To accomplish this, we will 
-      use results from the PhastCons-100Way experiment (details can be found 
-[here](https://genome.ucsc.edu/cgi-bin/hgc?hgsid=916826631_g8XasCQqrg8t9dxczEQmzhNA9Nyc&c=chr12&l=53858048&r=53859044&o=53858048&t=53859044&g=phastCons100way&i=phastCons100way).). 
-      To access this data, we can connect to the table using MySQL via the 
-      MariaDB. The MySQL workbench is a good tool for this task, although one 
-      could also use the CLI (see [here](http://genome.ucsc.edu/goldenPath/help/mysql.html) 
-      for details on how to connect to the MariaDB server). 
-      Once connected to the server, we can run the following query to retrieve 
-      all genomic bins where the sumData column is >= 165: 
+   use results from the PhastCons-100Way experiment (details can be found 
+[here](https://genome.ucsc.edu/cgi-bin/hgc?hgsid=916826631_g8XasCQqrg8t9dxczEQmzhNA9Nyc&c=chr12&l=53858048&r=53859044&o=53858048&t=53859044&g=phastCons100way&i=phastCons100way).). To access this data, we can connect to the table using MySQL via the 
+   MariaDB. The MySQL workbench is a good tool for this task, although one 
+   could also use the CLI (see [here](http://genome.ucsc.edu/goldenPath/help/mysql.html)
+   for details on how to connect to the MariaDB server). 
+   Once connected to the server, we can run the following query to retrieve 
+   all genomic bins where the sumData column is >= 165: 
             
-        SELECT pc.chrom, pc.chromStart, pc.chromEnd
-        FROM hg19.phastCons100way as pc
-        WHERE pc.sumData >= 165
+        SELECT chrom, chromStart, chromEnd
+        FROM hg19.phastCons100way
+        WHERE sumData >= 165
 
-      This will retrieve arppoximately the top-20% most conserved 1024 nt bins in the human 
-      genome. Once the results of the query are returned, export the data as a TSV file 
-      in BED format.
+   There are 2,813,440 rows in the table. By filtering for rows where the sumData 
+   is >165, we are left with 560,596 rows. Therefore, we are obtaining approximately 
+   the top-20% most conserved 1024-nucleotide stretches of the *hg19* genome. 
+   Once the results of the query are returned, export the data as a TSV file 
+   in BED format.
 
 
    c) **Obtain the nucleosome-bound regions of the genome**. To find the 

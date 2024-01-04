@@ -74,7 +74,7 @@ genome for downstream processing.
 2. Obtain required bedfiles. Useful tools include the UCSC Table Browser and 
    the MariaDB.
 
-   a) Obtain the regions overlapping genes and save to a bed-file. 
+   a) **Obtain the genomic regions overlapping genes and save to a bed-file**. 
       We proceed first to the UCSC Table Browser located at 
       `https://genome.ucsc.edu/cgi-bin/hgTables`. Here, we specify the 
       following parameters:
@@ -91,7 +91,8 @@ genome for downstream processing.
       We can then specify the output filename and download the BED file using 
       the `get output` button.
 
-   b) *Obtain the conserved regions of the genome*. To accomplish this, we will 
+
+   b) **Obtain the conserved regions of the genome**. To accomplish this, we will 
       use results from the PhastCons-100Way experiment (details can be found 
 [here](https://genome.ucsc.edu/cgi-bin/hgc?hgsid=916826631_g8XasCQqrg8t9dxczEQmzhNA9Nyc&c=chr12&l=53858048&r=53859044&o=53858048&t=53859044&g=phastCons100way&i=phastCons100way).). 
       To access this data, we can connect to the table using MySQL via the 
@@ -99,15 +100,91 @@ genome for downstream processing.
       could also use the CLI (see [here](http://genome.ucsc.edu/goldenPath/help/mysql.html) 
       for details on how to connect to the MariaDB server). 
       Once connected to the server, we can run the following query to retrieve 
-      all genomic bins where the sumData column is >= 165. This will retrieve 
-      arppoximately the top-20% most conserved 1024 nt bins in the human 
-      genome:
+      all genomic bins where the sumData column is >= 165: 
             
         SELECT pc.chrom, pc.chromStart, pc.chromEnd
         FROM hg19.phastCons100way as pc
         WHERE pc.sumData >= 165
 
-      Once the results of the query are returned, export the data as a TSV file 
+      This will retrieve arppoximately the top-20% most conserved 1024 nt bins in the human 
+      genome. Once the results of the query are returned, export the data as a TSV file 
       in BED format.
 
-   c) Obtain the nucleosome-bound regions of the genpome. To accomplish this
+
+   c) **Obtain the nucleosome-bound regions of the genome**. To find the 
+      positions of the genome bound by nucleosomes, we will use the results 
+      of an experiment from an Mnase digestion of GM12878 cells. The details of 
+      the experiment can be found [here](https://genome.ucsc.edu/cgi-bin/hgTables?db=hg19&hgta_group=regulation&hgta_track=wgEncodeSydhNsome&hgta_table=wgEncodeSydhNsomeGm12878Sig&hgta_doSchema=describe+table+schema). Access and download the 
+      file titled *wgEncodeSydhNsomeGm12878Sig.bigWig* from the data archive 
+      [here](https://hgdownload-test.gi.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeSydhNsome/). 
+      Once downloaded, we will need to convert the file from bigWig format to 
+      BED format. This will entail using another BED file with predefined 
+      regions, and then calculating an average coverage score of those regions 
+      using the bigWig file. This can be accomplished using the 
+      `bigWigAverageOverBed` UCSC tool, available for download 
+      [here](http://hgdownload.soe.ucsc.edu/admin/exe/macOSX.arm64/). Once the 
+      tool is downloaded and made executable using `chmod +x bigWigAverageOverBed`, 
+      we can use the following command to get the average coverage over the 
+      BED file of intergenic regions that we obtained in the previous step.
+
+
+      ```
+      bigWigAverageOverBed wgEncodeSydhNsomeGm12878Sig.bigWig hg19_intergenic.bed -bedOut=hg19_intergenicNucCoverage.bed temp.tab
+      ```
+
+      The command above will output 2 files. The only file we require is hg19_nuc.bed. 
+      Once we have obtained this file, we will need to filter it to obtain 
+      regions of high nucleosome occupancy. For example, to obtain the top 20% 
+      most nuclosome-occupied regions from the file, we set a threshold of 1.28, 
+      and then use an AWK one-liner:
+
+      ```
+      awk -F'\t' '$5 > 1.32' data/hg19_NucCoverage.bed > data/hg19_nucleosome.bed
+      ```
+ 
+
+   d) **Find overlap among bed files**. We have now obtained 3 bed files that 
+      we must combine. The nucleosome bedfile has already been built from the 
+      intergenic bed file, so we will only need to combine the nucleosome bed 
+      file with the conserved bed file in order to obtain the regions of 
+      the hg19 genome that are intergenic, conserved, and bound by nucleosomes. 
+      We can accomplish this using `analysis/combine_bedfiles.sh`:
+
+      ```
+      analysis/combine_bedfiles.sh -b data/hg19_nucleosome.bed,data/hg19_conserved.bed -o data/hg19_inNucCon.bed
+      ```
+
+   e) **Extract a FASTA file from the combined-bedfile.** We must now use our 
+      *hg19.fa* genome file and our *hg19_inNucCon.bed* to obtain the actual 
+      DNA sequence of the regions within the BED file. We do this using the 
+      following command:
+
+      ```
+      bedtools getfasta -fi data/hg19.fa -bed data/hg19_inNucCon.bed -fo hg19_inNucCon.fa
+      ```
+
+   f) **Process the sequence.**
+                  
+
+
+
+
+
+
+
+**Obtain the nucleosome-bound regions of the genpome**. To accomplish
+      this, we will use the results of the *UW Predicted Nucleosome Occupancy - A375* 
+      experiment (details can be found
+[here](https://genome.ucsc.edu/cgi-bin/hgTrackUi?hgsid=1834475416_yTWM0Y4M8ZWMZHk4eDrd9OBXgfvg&c=chr12&g=uwNucOccA375)). 
+      We will again connect to the *MariaDB* to access the table. The following 
+      query will retrieve all genomic bins where the sumData columns >= -310.
+
+        SELECT Chrom, ChromStart, ChromEnd
+        FROM hg18.uwNucOccA375
+        WHERE sumData >= -310     
+
+      This will retrieve the top-20% bins predicted to be occupied by
+      nucleosomes. Export the results of the query as a TSV file in BED format.   
+
+
+   d) **Format the bed files.**
